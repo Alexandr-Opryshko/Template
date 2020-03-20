@@ -34,21 +34,23 @@ const int ROWS = 10;
 const int COLS = 10;
 
 template<typename T>
-void FillRand(T* array, const int ROWS, const int COLS) {
+void FillRand(T* array, const int rows, const int cols) {
 	for (int i = 0; i < ROWS; i++) {
 		for (int c = 0; c < COLS; c++) {
-			array[i][c] = rand() % 1000 / 10;
+			array[i][c] = (rand() % 1000);
+			array[i][c] /= 10;
 		}
 	}
 	return;
 }
 
 template<typename T>
-void Print(T* array, const int ROWS, const int COLS) {
-	for (int i = 0; i < ROWS; i++) {
-		for (int c = 0; c < COLS; c++) {
+void Print(T* array, const int rows, const int cols) {
+	for (int i = 0; i < rows; i++) {
+		for (int c = 0; c < cols; c++) {
 			std::cout << array[i][c] << "\t";
 		}
+		std::cout << std::endl;
 	}
 	std::cout << std::endl;
 	std::cout << std::endl;
@@ -56,16 +58,15 @@ void Print(T* array, const int ROWS, const int COLS) {
 }
 
 template<typename T>
-void Sort(T array, const int ROWS, const int COLS) {
-
+void Sort(T* array, const int ROWS, const int COLS) {
 	for (int i = 0; i < ROWS; i++) {
 		for (int j = 0; j < COLS; j++) {
 			for (int k = i; k < ROWS; k++) {
 				for (int l = k == i ? j + 1 : 0; l < COLS; l++) {
 					if (array[k][l] < array[i][j]) {
-						T temp = array[i][j];
-						array[i][j] = array[k][l];
-						array[k][l] = temp;
+						array[i][j] = array[i][j] + array[k][l];
+						array[k][l] = array[i][j] - array[k][l];
+						array[i][j] = array[i][j] - array[k][l];
 					}
 				}
 			}
@@ -94,11 +95,11 @@ void main() {
 
 	FillRand(arrayToInt, ROWS, COLS);
 	Print(arrayToInt, ROWS, COLS);
-//	Sort(arrayToInt, ROWS, COLS);
-//	Print(arrayToInt, ROWS, COLS);
+	Sort(arrayToInt, ROWS, COLS);
+	Print(arrayToInt, ROWS, COLS);
 
 	FillRand(arrayToDb, ROWS, COLS);
 	Print(arrayToDb, ROWS, COLS);
-//	Sort(arrayToDb, ROWS, COLS);
-//	Print(arrayToDb, ROWS, COLS);
+	Sort(arrayToDb, ROWS, COLS);
+	Print(arrayToDb, ROWS, COLS);
 }
